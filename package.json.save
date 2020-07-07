@@ -1,0 +1,21 @@
+{
+  "name": "docker-telegram-notifier",
+  "version": "1.0.0",
+  "description": "Telegram integration for notifying Docker events",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seth-rah/docker-telegram-notifier"
+  },
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "arefaslani",
+  "contributor": "seth-rah",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "dockerode": "^2.5.3",
+    "immutable": "^3.8.2",
+    "telegraf": "^3.20.0"
+  }
+}
