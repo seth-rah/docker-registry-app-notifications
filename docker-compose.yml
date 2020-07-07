@@ -1,12 +1,11 @@
-version: "3.1"
-
+version: "2"
 services:
-  daemon:
-    image: arefaslani/docker-telegram-notifier
+  tgnotifier:
+    image: sethrah/telegramdockernotifications:1.0
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TELEGRAM_NOTIFIER_BOT_TOKEN=...
-      - TELEGRAM_NOTIFIER_CHAT_ID=...
+      - TELEGRAM_NOTIFIER_CHAT_ID=-...
     ports:
       - 1337:1337
