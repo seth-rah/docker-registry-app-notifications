@@ -46,7 +46,7 @@ async function main() {
 function handleError(e) {
 	console.log("handle error called");
 	console.error(e);
-	telegram.sendError(e).catch(console.error);
+//	telegram.sendError(e).catch(console.error);
 }
 
 const PORT = process.env.PORT || 1337
