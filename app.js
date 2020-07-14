@@ -14,11 +14,14 @@ app.use(bodyParser.json());
 
 async function sendEvent(event) {
 	if (imageRegExp.test(event.from)) {
-		const template = templates[`${event.events[0].request.method}_${event.events[0].action}`];
-		if (template) {
-			console.log("Valid event received");
-			const attachment = template(event);
-			await telegram.send(attachment)
+		if('tag' in event.events[0].target){
+			console.log(event.events[0].target.tag);
+			const template = templates[`${event.events[0].request.method}_${event.events[0].action}`];
+			if (template) {
+				console.log("Valid event received");
+				const attachment = template(event);
+				await telegram.send(attachment)
+			}
 		}
 	}
 }
