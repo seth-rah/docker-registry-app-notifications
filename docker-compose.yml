@@ -1,0 +1,13 @@
+version: "2"
+services:
+  tgnotifier:
+    image: sethrah/dockerregistrynotifications:1.0
+    dns: 8.8.8.8
+#    environment:
+#      - TELEGRAM_BOT_TOKEN=...
+#      - TELEGRAM_CHAT_ID=...
+#      - DISCORD_WEBHOOKID=...
+#      - DISCORD_WEBHOOKTOKEN=...
+    ports:
+      - 1337:1337
+    network_mode: "bridge"

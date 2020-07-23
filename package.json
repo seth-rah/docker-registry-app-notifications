@@ -1,0 +1,26 @@
+{
+  "name": "docker-registry-app-notifications",
+  "version": "1.0.0",
+  "description": "App integration for notifying Docker Registry new image events",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seth-rah/docker-registry-app-notifications.git"
+  },
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Seth-Rah",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "discord.js": "^12.2.0",
+    "express": "^4.17.1",
+    "telegraf": "^3.20.0"
+  },
+  "bugs": {
+    "url": "https://github.com/seth-rah/docker-registry-app-notifications/issues"
+  },
+  "homepage": "https://github.com/seth-rah/docker-registry-app-notifications#readme",
+  "devDependencies": {}
+}
