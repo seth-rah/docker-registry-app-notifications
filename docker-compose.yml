@@ -1,6 +1,6 @@
 version: "2"
 services:
-  tgnotifier:
+  registrynotifications:
     image: sethrah/dockerregistrynotifications:1.0
     dns: 8.8.8.8
 #    environment:
