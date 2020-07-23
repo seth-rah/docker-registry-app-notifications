@@ -1,0 +1,26 @@
+{
+    "id": "fee4bbe6-5e71-483e-bd92-d98765f2f6c7",
+    "timestamp": "2020-07-23T15:20:36.87806125Z",
+    "action": "push",
+    "target": {
+        "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+        "size": 3050,
+        "digest": "sha256:aee8b6ecdf6ea0ae12bfaf971bb17e36b3a7312135811d645cb80f9358e4384d",
+        "length": 3050,
+        "repository": "registry",
+        "url": "http://127.0.0.1:5000/v2/registry/manifests/sha256:aee8b6ecdf6ea0ae12bfaf971bb17e36b3a7312135811d645cb80f9358e4384d",
+        "tag": "latest"
+    },
+    "request": {
+        "id": "8ce46d93-15f8-4e6a-b58c-c83352b22aac",
+        "addr": "192.168.0.1:53986",
+        "host": "127.0.0.1:5000",
+        "method": "PUT",
+        "useragent": "docker/18.06.0-ce go/go1.10.3 git-commit/0ffa825 kernel/4.4.0-138-generic os/linux arch/amd64 UpstreamClient(Docker-Client/18.06.0-ce \\(linux\\))"
+    },
+    "actor": {},
+    "source": {
+        "addr": "50f372597ce9:5000",
+        "instanceID": "d45189b2-44d0-46ac-b1ea-92da7ccfae07"
+    }
+}
