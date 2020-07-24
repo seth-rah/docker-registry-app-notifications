@@ -1,4 +1,6 @@
 {
+   "events": [
+{
     "id": "fee4bbe6-5e71-483e-bd92-d98765f2f6c7",
     "timestamp": "2020-07-23T15:20:36.87806125Z",
     "action": "push",
@@ -23,4 +25,6 @@
         "addr": "50f372597ce9:5000",
         "instanceID": "d45189b2-44d0-46ac-b1ea-92da7ccfae07"
     }
+}
+   ]
 }
