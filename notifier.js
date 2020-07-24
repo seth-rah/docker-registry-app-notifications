@@ -10,14 +10,17 @@ const handlers = {
 };
 
 // Parse JSON request bodies.
-app.use(express.json());
+app.use(express.json({
+	type: 'application/vnd.docker.distribution.events.v1+json'
+}));
+
 
 // POST endpoint for /docker.
 app.post('/docker', async (req, res, next) => {
 	const events = req.body.events;
 
 	// Check the body for validity.
-	if (events.constructor === Object && Object.keys(events).length === 0) {
+	if (!events || events.constructor === Object && Object.keys(events).length === 0) {
 		return res.status(400).end();
 	}
 
