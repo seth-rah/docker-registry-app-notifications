@@ -1,82 +1,79 @@
-const telegramClient = require('./interface/telegram');
-const discordClient = require('./interface/discord');
-const templates = require('./templates');
-
 const express = require('express');
-const bodyParser = require("body-parser");
 
-const listener = express();
-const telegram = new telegramClient();
-const discord = new discordClient();
+const app = express();
+const port = process.env.PORT || 1337;
 
-//OPEN LISTENER PORT
-listener.listen(1337, () => {
-	console.log(`Listener started on port 1337 internally`)
-})
+// Register all available notification handlers.
+const handlers = {
+	telegram: require('./interface/telegram'),
+	discord: require('./interface/discord') 
+};
 
-//CONFIGURE LISTENER
-listener.use(bodyParser.urlencoded({
-	extended: true
-}));
+// Parse JSON request bodies.
+app.use(express.json());
 
-listener.use(bodyParser.json());
+// POST endpoint for /docker.
+app.post('/docker', async (req, res, next) => {
+	const events = req.body.events;
 
-//GENERIC ERROR HANDLER
-function handleError(e) {
-	console.log("handle error called");
-	console.error(e);
-	telegram.sendError(e).catch(console.error);
-}
+	// Check the body for validity.
+	if (events.constructor === Object && Object.keys(events).length === 0) {
+		return res.status(400).end();
+	}
 
-//START APPLICATION
-async function main() {
-	await sendEventStream();
-}
+	try {
+		// Attempt to handle the event array.
+		for (event of events) {
+			await handleEvent(event);
+		}
+		return res.status(200).end();
+	} catch (error) {
+		next(error);
+	}
+});
 
-//AWAITS NEW MESSAGES ON THE LISTENER
-async function sendEventStream() {
-	const eventStream = await listener.post('/docker', function(req, res) {
-		res.header('Content-type', 'text/html');
-		res.sendStatus(200);
-		req.on('data', function(data) {
+// Default error handler.
+app.use(async (err, req, res, next) => {
+	console.error(err);
+	await handlers.telegram.sendError(err);
+	res.status(500).json({ error: err.message });
+});
+
+// Start listening.
+app.listen(port, () => {
+	console.log(`Notification handler listening on port ${port}`);
+});
+
+/**
+ * Handles an incoming docker event.
+ * 
+ * @param {object} event 
+ * @returns {Promise<void>}
+ */
+async function handleEvent(event) {
+	if (event.target.tag && canHandleEvent(event)) {
+		console.log(`Handling ${event.action} event ${event.id}!`);
+
+		for (handler in handlers) {
+			console.log(`Firing ${handler} handler!`);
+
 			try {
-				sendEvent(JSON.parse(data.toString('utf8')));
-			} catch (e) {
-				console.log("failed to parse: " + data.toString('utf8'))
-				handleError(e);
-			}
-		});
-	});
-}
-
-//HANDLES MESSAGES RECEIVED BY THE LISTENER AND SENDS THEM TO THE DEFINED INTERFACES
-async function sendEvent(event) {
-	if('tag' in event.events[0].target){
-
-		//SET TEMPLATE BASED ON METHOD AND ACTION RECEIVED
-		//COULD BE USEFUL AT A LATER STAGE WHEN MULTIPLE DIFFERENT EVENT TYPES SHOULD BE MONITORED
-		const template = templates[`${event.events[0].request.method}_${event.events[0].action}`];
-
-		//CHECK IF TEMPLATE CONDITIONS ARE MET
-		if (template) {
-			console.log("Valid event received");
-			const attachment = template(event);
-
-			//TELEGRAM
-			try{
-				await telegram.send(attachment)
-			} catch (e) {
-				handleError(e);
-			}
-
-			//DISCORD
-			try{
-				await discord.send(attachment)
-			} catch (e) {
-				handleError(e);
+				await handlers[handler].send(event);
+			} catch (error) {
+				console.error(error.message);
 			}
 		}
 	}
 }
 
-main().catch(handleError);
+/**
+ * Returns whether an event can be handled based on its method and action.
+ * 
+ * @param {object} event
+ * @returns {boolean}
+ */
+function canHandleEvent(event) {
+	return [
+		'PUT_push'
+	].includes(`${event.request.method}_${event.action}`);
+}
