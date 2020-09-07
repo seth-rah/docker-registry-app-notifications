@@ -2,6 +2,7 @@ version: "2"
 services:
   registrynotifications:
     image: sethrah/dockerregistrynotifications
+    restart: always
     dns: 8.8.8.8
 #    environment:
 #      - TELEGRAM_BOT_TOKEN=...

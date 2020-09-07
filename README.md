@@ -53,6 +53,8 @@ https://server.running.this.project:1337/docker
 
 Be sure to append the /docker to the end of the URL, as it's expected.
 
+Please ensure that there is sufficient time on the "timeout" for the endpoint on the registry.
+
 ### Network
 The internal port `1337` needs to be mapped out of the container for the docker registry to have an endpoint to send notifications towards. At default the docker-compose file will open this on `1337`.
 
