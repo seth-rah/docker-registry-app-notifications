@@ -24,11 +24,11 @@ app.post('/docker', async (req, res, next) => {
 		return res.status(400).end();
 	}
 
-	try {
-		// Send response first, docker registry could be set as being impatient.
-                res.header('Content-type', 'text/html');
-                return res.sendStatus(200);
+        // Send response first, docker registry could be set as being impatient.
+        res.header('Content-type', 'text/html');
+        res.sendStatus(200);
 
+	try {
 		// Attempt to handle the event array.
 		for (event of events) {
 			await handleEvent(event);
