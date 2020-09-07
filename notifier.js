@@ -6,7 +6,7 @@ const port = process.env.PORT || 1337;
 // Register all available notification handlers.
 const handlers = {
 	telegram: require('./interface/telegram'),
-	discord: require('./interface/discord') 
+	discord: require('./interface/discord')
 };
 
 // Parse JSON request bodies.
@@ -25,11 +25,14 @@ app.post('/docker', async (req, res, next) => {
 	}
 
 	try {
+		// Send response first, docker registry could be set as being impatient.
+                res.header('Content-type', 'text/html');
+                return res.sendStatus(200);
+
 		// Attempt to handle the event array.
 		for (event of events) {
 			await handleEvent(event);
 		}
-		return res.status(200).end();
 	} catch (error) {
 		next(error);
 	}
