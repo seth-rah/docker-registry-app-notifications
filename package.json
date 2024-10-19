@@ -14,7 +14,7 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "discord.js": "^12.2.0",
-    "express": "^5.0.0",
+    "express": "^5.0.1",
     "telegraf": "^3.20.0"
   },
   "bugs": {
